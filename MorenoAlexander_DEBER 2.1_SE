@@ -1,0 +1,25 @@
+/*
+ * Capitulo II: PUERTOS DIGITALES
+ * CÓDIGO 1.1: Tarea
+ * OBJETIVO: Encender y apagar 4 leds mediante el uso de diferentes tipos de variables
+ * NOMBRE:   Alexander Moreno
+ */
+  //ingreso de variables
+ int i; 
+ int secuencia [4]={11, 10, 9, 8}; 
+ int tiempo [4] = {300,300,300,300};
+ //Funcionalidades
+void setup() {
+  for (i=0; i<4; i++){
+    pinMode(secuencia[i],OUTPUT);
+    }
+  }
+
+  //
+void loop() {
+  for (i=0; i<4; i++){
+    digitalWrite (secuencia[i],HIGH);
+    delay(tiempo[i]);
+    digitalWrite(secuencia[i], LOW);
+    }
+}
