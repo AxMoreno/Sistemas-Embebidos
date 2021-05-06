@@ -1,0 +1,32 @@
+/*
+ * Capitulo II: PUERTO DIGITALES
+ * CÓDIGO 1: Manejo de puertos configurados como salidas
+ * OBJETIVO: Encender y apagar leds mediante el uso de diferentes tipos de variables
+ * NOMBRE:   Alexander Moreno
+ */
+
+  //VARIABLES: numericas enteras (int), decimales (float), caracteres (chart)
+#define led1 8            //uso de #define variable que no se puede alterar su valor, no existe una depuracion de error
+int led2 = 9;             //se puede considerar una variable normal
+const int led3 = 10;      //variable constante (recomendada)
+  
+  //Pines a trabajar y sus funcionalidades
+void setup() {
+  pinMode(led1,OUTPUT);   //declaro el pin 8 como salida
+  pinMode(led2,OUTPUT);   //declaro el pin 9 como salida
+  pinMode(led3,OUTPUT);   //declaro el pin 10 como salida
+}
+  //Se realiza toda la configuracion  
+void loop() {
+  digitalWrite(led1,HIGH); // Envia 5v al pin 8
+  delay(500);              // Se detiene el microprocesador por medio segundo
+  digitalWrite(led1,LOW);  // Envia 0V al pin 8
+  delay(500);              //
+  digitalWrite(led2,HIGH);
+  digitalWrite(led3,LOW);
+  delay(500);
+  digitalWrite(led3,HIGH);
+  digitalWrite(led2,LOW);
+  delay(700);
+  
+}
