@@ -1,0 +1,62 @@
+/*
+ *Deber : 4_3
+ *Nombre:Alexander Moreno
+ *Funcionamiento: Realizar la modificación correspondiente en el código 18 que se utilizó en clase, 
+ *trabajando con una LCD 20x4, en donde en la primera fila se observe un mensaje de bienvenida, 
+ *en la segunda línea se visualice su nombre y apellido, en la tercera 
+ *línea se observe "Horas : minutos : segundos"; y en la última fila se 
+ *visualice los valores asignados a las variables del timer2, centradas.  
+ *
+*/
+
+
+#include <MsTimer2.h>        //Incluir Librera Timer 2
+#include <LiquidCrystal.h>   //Incluir Libreria LCD
+
+ LiquidCrystal lcd(13,12,11,10,9,8);  //Objeto para la librera de LCD 
+
+ int seg=0;      
+ int min=0;       
+ int hrs=0;          
+ 
+void setup() {
+  lcd.begin(20,4);            
+  MsTimer2::set(10,reloj);  
+  MsTimer2::start();  
+}
+
+void loop() {
+
+}
+
+void reloj(){
+  if(seg<60){            //Condicion de segundos 
+    seg++;               //Incremetar variable
+  }
+  else{
+    seg=0;              
+    if(min<60){           //Condicion de minutos
+      min++;              //Incrementa variable
+    }
+    else{
+      min=0;
+      if(hrs<24){           //Condicion de horas
+        hrs++;              //Incrementa variable
+      }
+      else{
+        hrs=0;
+      }
+    }
+  }
+  lcd.clear();     
+  lcd.setCursor(0,0);
+  lcd.print("HOLA, BIENVENIDO"); 
+  lcd.setCursor(0,1);
+  lcd.print("Alexander Moreno");
+  lcd.setCursor(0,2);
+  lcd.print(String("HORAS ")+String("MINUTOS ")+String("SEGUNDOS "));          
+  lcd.setCursor(0,3);         
+  lcd.print(String(hrs)+String(":")+String(min)+String(":")+String(seg));  
+
+
+}
