@@ -1,0 +1,83 @@
+/*
+ * CAPITULO V: FUNCIONES ESPECIFICAS
+ * DEBER 5.1: LECTURA Y ESCRITURA DE DATOS EN LA MEMORIA EEPROM
+ * OBJETIVO: Realizar la escritura de la memoria EEPROM a travez de un teclado matricial,
+ * el cual debe cumplir que se visualice en una LCD cada caracter que se introduzca 
+ *(uno por uno el que vayamos escribiendo en la memoria EEPROM), es decir, cada vez que se presione una tecla.
+ *Con una tecla en específico, la que usted decida, al presionarla, en la LCD se debe 
+ *observar todos los caracteres que se guardaron en la memoria. Esto debe visualizarse 
+ *de la posición menor a la posición mayor si se observa de derecha a izquierda en la LCD.
+ *NOMBRE: Alexander Moreno   
+ *
+*/
+#include <Keypad.h>
+#include <LiquidCrystal.h>
+#include <EEPROM.h>
+
+LiquidCrystal lcd (13,12,11,10,9,8); //PINs  DE LCD
+
+int i=0;
+char dat[15], op[1];
+String salida;
+int j=0;
+int datos;
+const byte filas = 4; //cuatro  filas.
+const byte columnas = 4; //cuatro columnas.
+char tecla[filas][columnas] = {
+  {'7','8','9','A'},
+  {'4','5','6','B'},
+  {'1','2','3','C'},
+  {'*','0','#','D'}
+};
+byte pinFilas[filas] = {7, 6, 5, 4}; //conectarse a las patillas de salida de fila del teclado.
+byte pinColumnas[columnas] = {A0, A1, A2, A3}; //conectarse a las patillas de las columnas del teclado.
+
+Keypad keypad = Keypad( makeKeymap(tecla), pinFilas, pinColumnas, filas, columnas );
+char res;
+
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(16,2);
+  lcd.setCursor(0,0);
+  lcd.print("REGISTRO DE DATOS: ");
+  lcd.setCursor(0,1);
+}
+
+void loop() {
+  //VALIDACION DE REGISTRO
+  char dato=keypad.getKey();
+  if(dato){
+    lcd.setCursor(0,0);
+    lcd.print("REGISTRANDO...");
+    Serial.println(dato);
+    lcd.setCursor(0,1);
+    lcd.print(dato);
+    dat[i]=dato;
+    i++;
+    for(int h=0;h<16;h++){
+    EEPROM.write(h,dat[h]);
+    }
+    if(i==15){
+      Serial.println("REGISTRO DE MENSAJE");
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.println("REGISTRADO");
+      i=0;
+    }
+    op[j]=dato;
+    if(op[0]=='D'){
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("DATOS REGISTRADOS");
+      lcd.setCursor(0,1);
+      for(int k=0;k<16;k++){
+      res=EEPROM.read(k);
+      Serial.println(res);
+      lcd.print(res);
+      }
+      delay(1000);
+      i=0;
+      j=0;
+    }
+  }
+}
